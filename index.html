@@ -1,25 +1,25 @@
 <!DOCTYPE html>
 <html lang="ko"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
 <title>입자기록기</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;height:100%;background:#0a0e13;color:#e8e6e1;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;-webkit-text-size-adjust:100%}
+*{box-sizing:border-box}html,body{margin:0;height:100%;overflow:hidden;overscroll-behavior:none;background:#0a0e13;color:#e8e6e1;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;-webkit-text-size-adjust:100%}
 button{font-family:inherit}
 #gate{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:10px;color:#8794a2;font-size:14px;text-align:center;padding:24px}
 #gate b{color:#ffd27a;font:700 12px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.2em}
-.phone{position:fixed;inset:0;display:none;flex-direction:row;background:#11161d;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+.phone{position:fixed;left:0;right:0;top:var(--vvt,0px);height:calc(100vh - var(--kb,0px));height:calc(100dvh - var(--kb,0px));display:none;flex-direction:row;background:#11161d;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
 .ph-rail{width:70px;flex:none;display:flex;flex-direction:column;gap:4px;padding:10px 6px 0 6px;border-right:1px solid #273241}
 .ph-rail button{background:none;border:0;color:#8794a2;font-size:11px;padding:9px 0 7px;border-radius:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;line-height:1.2}
 .ph-rail button svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .ph-rail button.on{color:#ffd27a;background:#1a2330;font-weight:700}.ph-rail button small{display:block;font-size:9.5px;opacity:.7;font-weight:400}
-.ph-main{flex:1;min-width:0;display:flex;flex-direction:column}
+.ph-main{flex:1;min-width:0;min-height:0;display:flex;flex-direction:column}
 .ph-top{display:flex;align-items:baseline;gap:8px;padding:10px 12px 8px;border-bottom:1px solid #273241;flex-wrap:wrap}
 .ph-top b{font-size:16px}.ph-top .r{font-size:12px;color:#9aa5b1}.ph-top .loc{margin-left:auto;font-size:12.5px;color:#c9d1da}
 .ph-top .loc i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px;vertical-align:middle}
 .conn{width:7px;height:7px;border-radius:50%;background:#5d6b7a;display:inline-block;margin-left:6px;vertical-align:middle}.conn.on{background:#5bb26a}
 .phc{margin-left:8px;font-size:12px;padding:2px 9px;border-radius:12px;background:#1d3532;color:#bfeee5;white-space:nowrap}.phc b{color:#8fcfc3}.phc .cd{font:600 12px 'IBM Plex Mono',ui-monospace,monospace}
 .phc.idle{background:#1b2430;color:#7f8b98}.phc.over{background:#3b2622;color:#ffb38a}.phc.over b{color:#ffb38a}
-.ph-scr{flex:1;overflow:auto;padding:10px 10px 20px;position:relative}.ph-scr.wide{padding:0;overflow:hidden}
+.ph-scr{flex:1;min-height:0;overflow:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:10px 10px 20px;position:relative}.ph-scr.wide{padding:0;overflow:hidden}
 .col{max-width:560px;margin:0 auto}
 .rt{display:grid;grid-template-columns:minmax(260px,40%) 1fr;height:100%}
 .rtm{display:flex;flex-direction:column;padding:6px 10px;border-right:1px solid #1e2834;min-height:0}
@@ -36,9 +36,9 @@ button{font-family:inherit}
 .pgnow .lk{margin-left:auto;font:700 10.5px 'IBM Plex Mono',ui-monospace,monospace;color:#ffb38a;border:1px solid #5a3a2c;border-radius:20px;padding:2px 8px}
 .pgc{font:600 12px 'IBM Plex Mono',ui-monospace,monospace;color:#8794a2}
 .pgsum{height:30px;border-radius:15px;border:1px solid #334255;background:#17202b;color:#c9d1da;font-size:12px;font-weight:700;padding:0 12px;cursor:pointer}.pgsum.on{background:#1d3532;border-color:#8fcfc3;color:#bfeee5}
-.secs{display:flex;gap:2px;margin:0 0 8px;border-bottom:1px solid #1e2834;overflow-x:auto}
+.secs{display:flex;gap:2px;margin:0 0 8px;border-bottom:1px solid #1e2834;overflow-x:auto;overscroll-behavior-x:contain}
 .secs button{background:none;border:0;border-bottom:2px solid transparent;color:#7f8b98;font-size:12px;padding:4px 8px 6px;cursor:pointer;margin-bottom:-1px;white-space:nowrap}.secs button.on{color:#ffd27a;border-bottom-color:#ffd27a;font-weight:700}
-.pgbody{flex:1;overflow-y:auto;padding:2px 10px 16px 0;touch-action:pan-y}
+.pgbody{flex:1;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding:2px 10px 16px 0;touch-action:pan-y}
 .pgbody.in-r{animation:pgr .28s ease}.pgbody.in-l{animation:pgl .28s ease}@keyframes pgr{from{opacity:0;transform:translateX(18px)}}@keyframes pgl{from{opacity:0;transform:translateX(-18px)}}
 .pgbody p{margin:0 0 7px;font-size:13.5px;line-height:1.78;color:#eceef1}
 .sum{margin:0 0 8px;padding:1px 0 1px 9px;border-left:2px solid #2d5a55;font-size:12.5px;line-height:1.6;color:#8fcfc3}
@@ -60,13 +60,13 @@ button{font-family:inherit}
 .bub .cd{display:block;font:600 9.5px 'IBM Plex Mono',ui-monospace,monospace;opacity:.7;margin-bottom:1px}
 .bub.fresh{animation:bubin .55s cubic-bezier(.2,.8,.3,1)}@keyframes bubin{from{transform:translateY(34px);opacity:0}}
 .msgin{display:flex;align-items:center;gap:10px;margin-top:10px}
-.boxes{position:relative;flex:1;max-width:440px;display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
+.boxes{position:relative;flex:1;min-width:0;max-width:440px;display:grid;grid-template-columns:repeat(10,1fr);gap:5px}
 .boxes span{aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1.5px solid #334255;border-radius:8px;background:#0d1218;color:#fff;font-weight:600;font-size:19px;transition:transform .5s cubic-bezier(.5,0,.75,.35),opacity .5s}
 .boxes span.on{border-color:#4f73a3;background:#16212e}.boxes span.cur{border-color:#ffd27a;animation:boxb 1.05s steps(2) infinite}@keyframes boxb{50%{border-color:#334255}}
 .boxes input{position:absolute;inset:0;width:100%;height:100%;opacity:0;border:0;padding:0;font-size:16px}
 .boxes.fly span{transform:translateY(-60px);opacity:0}
 .msgin button,.cin button,.rvb{border:0;border-radius:10px;background:#ffd27a;color:#22252a;font-weight:700;cursor:pointer}
-.msgin button{align-self:stretch;min-height:40px;padding:0 16px}.msgin button:disabled{opacity:.4}
+.msgin button{flex:none;white-space:nowrap;align-self:stretch;min-height:40px;padding:0 16px}.msgin button:disabled{opacity:.4}
 .cnt{font-size:11px;color:#9aa5b1;margin-top:4px}
 .cin{display:flex;gap:6px;margin:4px 2px 12px}.cin input{flex:1;min-width:0;border-radius:10px;border:1px solid #344355;background:#0d1218;color:#fff;padding:8px 10px;font:600 15px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.08em;text-transform:uppercase}.cin button{padding:0 14px}
 .cbad{color:#ffb3a8;font-size:13px;margin:6px 4px}
@@ -83,7 +83,7 @@ button{font-family:inherit}
 .gth{cursor:zoom-in}.gt{font-size:12px;font-weight:700;margin:5px 2px 3px}.gt span{font-weight:400;color:#7f8b98;margin-left:5px;font-size:10.5px}
 .tg{display:flex;gap:5px;margin:0 2px}.tg i{width:14px;height:14px;border-radius:50%;cursor:pointer;opacity:.35;border:2px solid transparent}.tg i.on{opacity:1;border-color:#fff}
 .ovl{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;background:rgba(6,9,13,.7);padding:16px}.ovl.on{display:flex;animation:popin .22s ease}@keyframes popin{from{opacity:0}}
-.pbox,.hbox,.bbox,.wb{background:#1b2430;border:1px solid #3a4a5e;border-radius:16px;padding:18px 20px 16px;box-shadow:0 18px 50px rgba(0,0,0,.5);animation:pboxin .35s cubic-bezier(.2,.9,.3,1.2);max-height:94%;overflow:auto}
+.pbox,.hbox,.bbox,.wb{background:#1b2430;border:1px solid #3a4a5e;border-radius:16px;padding:18px 20px 16px;box-shadow:0 18px 50px rgba(0,0,0,.5);animation:pboxin .35s cubic-bezier(.2,.9,.3,1.2);max-height:94%;overflow:auto;overscroll-behavior:contain}
 @keyframes pboxin{from{transform:translateY(16px) scale(.96);opacity:0}}
 .pbox{width:360px;max-width:100%}.pk{font:700 11px 'IBM Plex Mono',ui-monospace,monospace;letter-spacing:.14em;color:#ffd27a;margin-bottom:8px}.pm{font-size:17px;font-weight:700;line-height:1.5}
 .pold{margin-top:10px;padding-top:8px;border-top:1px solid #2b3848;font-size:12px;color:#8794a2;line-height:1.6}.pold span{font:600 11px 'IBM Plex Mono',ui-monospace,monospace;margin-right:7px}
@@ -117,7 +117,7 @@ button{font-family:inherit}
 .ie2{animation:ie2 1.9s cubic-bezier(.2,.8,.3,1) both}@keyframes ie2{0%{transform:rotate(120deg);opacity:0}18%{opacity:1}100%{transform:rotate(-170deg)}}
 @media (prefers-reduced-motion:reduce){.intro{display:none}}
 /* 진행자 */
-.master{position:fixed;inset:0;display:none;overflow:auto;background:#11161d;padding:16px 18px}
+.master{position:fixed;left:0;right:0;top:0;height:100vh;height:100dvh;display:none;overflow:auto;overscroll-behavior:contain;background:#11161d;padding:16px 18px}
 .mtop{display:flex;flex-wrap:wrap;row-gap:8px;align-items:center;gap:10px;padding-bottom:12px;border-bottom:1px solid #273241}.mtop>*{white-space:nowrap}
 .mt1{font-size:17px}.mtabs{display:flex;gap:2px;background:#0d1218;border-radius:9px;padding:2px}.mtabs button{border:0;background:none;color:#8794a2;font-size:12.5px;padding:5px 10px;border-radius:7px;cursor:pointer}.mtabs button.on{background:#273241;color:#ffd27a;font-weight:700}
 .mlab{color:#8794a2;font-size:12.5px}.mr{font:600 20px 'IBM Plex Mono',ui-monospace,monospace;color:#ffd27a;min-width:20px;text-align:center}.mph{font-size:12.5px;color:#8fcfc3;white-space:normal}
@@ -131,7 +131,7 @@ button{font-family:inherit}
 .pw2{display:flex;gap:6px}.pw2 button{flex:1}.pw2 button.warn{background:#3b2c26;color:#ffb38a;border:1px dashed #ffb38a}.pw2 button.warn:after{content:" ⚠"}
 .phst{font-size:11.5px;color:#8794a2}.phst .cd{font:600 11.5px 'IBM Plex Mono',ui-monospace,monospace;color:#ffd27a}
 .malarm{display:flex;gap:8px;margin-bottom:14px}.malarm input{flex:1;background:#0d1218;border:1px solid #334255;color:#fff;border-radius:10px;padding:9px 10px;font-size:14px}.malarm button{border:0;border-radius:10px;background:#ffd27a;color:#22252a;font-weight:700;padding:0 16px;cursor:pointer}
-.mcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.mcol{background:#151c25;border-radius:12px;padding:10px 12px;max-height:380px;overflow:auto}
+.mcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}.mcol{background:#151c25;border-radius:12px;padding:10px 12px;max-height:380px;overflow:auto;overscroll-behavior:contain}
 .mcol h4{margin:0 0 6px;font-size:14px}.mcol h5{margin:10px 0 4px;font-size:11.5px;color:#ffd27a;letter-spacing:.08em}
 .mrow{font-size:12.5px;line-height:1.55;padding:3px 0;border-bottom:1px solid #1e2834;display:flex;gap:7px;align-items:baseline}.mrow span{font:600 11px 'IBM Plex Mono',ui-monospace,monospace;color:#7f8b98}.mrow code{font:600 11px 'IBM Plex Mono',ui-monospace,monospace;color:#8fcfc3}
 .aw{font:700 10.5px 'IBM Plex Mono',ui-monospace,monospace;color:#22252a;background:#8fcfc3;border-radius:4px;padding:0 4px}
@@ -143,7 +143,13 @@ button{font-family:inherit}
 @media (max-width:720px){
  .phone{flex-direction:column-reverse}.ph-rail{width:auto;flex-direction:row;border-right:0;border-top:1px solid #273241;padding:4px 6px calc(4px + env(safe-area-inset-bottom));justify-content:space-around}
  .ph-rail button{flex:1;padding:6px 0}.rt{grid-template-columns:1fr;grid-template-rows:auto 1fr}.rtm{border-right:0;border-bottom:1px solid #1e2834}.mapwrap{max-width:330px;margin:0 auto;width:100%}
- .rtp{padding:0 10px}.sheet{left:12px;bottom:76px;max-width:calc(100% - 24px)}.galg{grid-template-columns:repeat(2,1fr)}.mcw{grid-template-columns:1fr}
+ .rtp{padding:0 10px}
+ .ph-top{flex-wrap:nowrap;align-items:center;gap:6px;padding:7px 10px 6px;white-space:nowrap}.ph-top .r{display:none}
+ .ph-top .loc{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;text-align:right}.phc{flex:none;margin-left:2px}.conn{flex:none}
+ .msgin{gap:8px}.boxes{gap:4px;grid-template-columns:repeat(10,minmax(0,1fr))}.msgin button{padding:0 12px}
+ .ph-scr.wide{overflow-y:auto}.rt{display:block;height:auto}.rtm{padding:4px 10px 6px}.mapwrap{max-width:min(300px,34vh);max-width:min(300px,34dvh)}
+ .rtp{display:block}.pgbar{position:sticky;top:0;z-index:3;background:#11161d}.pgbody{overflow:visible;padding:2px 0 24px}
+ .sheet{left:12px;bottom:76px;max-width:calc(100% - 24px)}.galg{grid-template-columns:repeat(2,1fr)}.mcw{grid-template-columns:1fr}
 }
 </style></head><body>
 <div id="gate"><b>PARTICLE RECORDER</b><span id="gateMsg">입자기록기를 여는 중</span></div>
@@ -309,12 +315,13 @@ function buildPages(){const pr=ME.prof,byT={},notes={},free=[];const put=(txt,st
  for(let i=0;i<=T_NOW;i++){const ms=ME.mems[i]||[];const body=(ms.length?`<div class="sum">${ms.map(esc).join('<br>')}</div>`:'')+(byT[i]||[]).map(x=>`<p>${esc(x)}</p>`).join('')+(notes[i]||[]).map(kp).join('');APG.push({t:i,ms,h:body||'<p class="none">—</p>'})}}
 function routeV(){buildPages();const secs=['오프닝','기본설정','목표','인간관계','동선'].map((l,k)=>`<button data-k="${k}" type="button">${l}</button>`).join('');
  return `<div class="rt"><div class="rtm"><div class="mapwrap"><div id="mapBox">${mapSvg(T_NOW)}</div></div><div class="rcap" id="cap">${mapCap(T_NOW)}</div></div><div class="rtp"><div class="pgbar"><button class="pgb" id="pPrev" type="button" aria-label="이전">‹</button><div class="pgnow" id="pNow"></div><span class="pgc" id="pC"></span><button class="pgsum" id="pSum" type="button">한눈에</button><button class="pgb" id="pNext" type="button" aria-label="다음">›</button></div><div class="secs" id="pSecs">${secs}</div><div class="pgbody" id="pBody"></div></div></div>`}
+function pgTop(){const sc=$('scr'),p=document.querySelector('.rtp');if(!sc||!p||getComputedStyle($('pBody')).overflowY!=='visible')return;if(sc.scrollTop>p.offsetTop)sc.scrollTop=p.offsetTop}
 function pageRefresh(){const c=$('cap');if(c)c.innerHTML=mapCap(AP.vt)}
 function apOv(){const b=$('pBody');AP.ov=1;$('pSum').classList.add('on');
  b.innerHTML='<div class="ov">'+APG.map((g,k)=>g.t==null?'':(g.t===BR?'<div class="rdiv">13:30 봉쇄</div>':'')+`<div class="ovr${k===AP.pg?' on':''}" data-k="${k}"><span class="tm">${tstr(g.t)}</span><span class="pl" style="color:${PL[ME.plan[g.t]].col}">${PL[ME.plan[g.t]].name}</span><span class="sm${g.ms.length?'':' x'}">${g.ms.length?g.ms.map(esc).join('<br>'):'—'}</span></div>`).join('')+'</div>';
- b.scrollTop=0;b.querySelectorAll('.ovr').forEach(r=>r.onclick=()=>apGo(+r.dataset.k,1))}
+ b.scrollTop=0;pgTop();b.querySelectorAll('.ovr').forEach(r=>r.onclick=()=>apGo(+r.dataset.k,1))}
 function apGo(k,dir){k=Math.max(0,Math.min(APG.length-1,k));const g=APG[k],was=AP.pg;AP.pg=k;AP.ov=0;const sb=$('pSum');if(sb)sb.classList.remove('on');
- const b=$('pBody');if(!b)return;b.innerHTML=g.h;b.scrollTop=0;b.classList.remove('in-r','in-l');if(dir){void b.offsetWidth;b.classList.add(dir>0?'in-r':'in-l')}
+ const b=$('pBody');if(!b)return;b.innerHTML=g.h;b.scrollTop=0;pgTop();b.classList.remove('in-r','in-l');if(dir){void b.offsetWidth;b.classList.add(dir>0?'in-r':'in-l')}
  $('pNow').innerHTML=g.t==null?`<span class="me">${g.lab}</span>${g.sec===1?`<span>${NM[ME.p]} · ${ROLEN[ME.p]}</span>`:''}`:`<b>${tstr(g.t)}</b><span style="color:${PL[ME.plan[g.t]].col}">${PL[ME.plan[g.t]].name}</span>${g.t===BR?'<span class="lk">13:30 봉쇄</span>':''}`;
  $('pPrev').disabled=k===0;$('pNext').disabled=k===APG.length-1;$('pC').textContent=`${k+1}/${APG.length}`;
  const sc=g.t==null?g.sec:4;document.querySelectorAll('#pSecs button').forEach(x=>x.classList.toggle('on',+x.dataset.k===sc));
@@ -322,7 +329,7 @@ function apGo(k,dir){k=Math.max(0,Math.min(APG.length-1,k));const g=APG[k],was=A
  if(g.t===0&&(was!==k||dir))intro()}
 function pageWire(){wireRooms($('scr'));$('pSum').onclick=()=>{if(AP.ov)apGo(AP.pg,-1);else apOv()};$('pPrev').onclick=()=>apGo(AP.pg-1,-1);$('pNext').onclick=()=>apGo(AP.pg+1,1);
  document.querySelectorAll('#pSecs button').forEach(x=>x.onclick=()=>{const k=+x.dataset.k;apGo(k,k>AP.pg?1:-1)});
- const b=$('pBody');let sx=null;b.onpointerdown=e=>{sx=e.clientX};b.onpointerup=e=>{if(sx==null)return;const dx=e.clientX-sx;sx=null;if(Math.abs(dx)>45)apGo(AP.pg+(dx<0?1:-1),dx<0?1:-1)};
+ const b=$('pBody');let sx=null,sy=0;b.onpointerdown=e=>{if(e.isPrimary){sx=e.clientX;sy=e.clientY}};b.onpointercancel=()=>{sx=null};b.onpointerup=e=>{if(sx==null)return;const dx=e.clientX-sx,dy=e.clientY-sy;sx=null;if(Math.abs(dx)>45&&Math.abs(dx)>2*Math.abs(dy))apGo(AP.pg+(dx<0?1:-1),dx<0?1:-1)};
  AP.vt=-1;apGo(AP.pg,0)}
 document.addEventListener('keydown',e=>{if(KIND!=='player'||AP.v!=='route'||!$('pBody'))return;if(/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName))return;if(e.key==='ArrowRight')apGo(AP.pg+1,1);else if(e.key==='ArrowLeft')apGo(AP.pg-1,-1)});
 function gear(cx,cy,n,ri,ro){let pts=[];for(let i=0;i<n;i++){const a=i*2*Math.PI/n,s=Math.PI/n;[[ri,a-s*.55],[ro,a-s*.3],[ro,a+s*.3],[ri,a+s*.55]].forEach(([r,q])=>pts.push((cx+r*Math.cos(q)).toFixed(3)+','+(cy+r*Math.sin(q)).toFixed(3)))}return `M${pts.join('L')}Z`}
@@ -342,12 +349,16 @@ function msgV(){const s=S();let h=`<details class="crule" ${AP.mi?'':'open'} id=
  if(ME.prof)h+=`<div class="msgr"><h5>이전 메모 · 나만 보인다</h5>${ME.prof.memo.map(m=>bub('me',ME.prior,m)).join('')}</div>`;
  for(let r=1;r<=s.round;r++){const th=ST.memos.filter(m=>m.r===r&&myMemo(m));h+=`<div class="msgr"><h5>${r}라운드 · 쓴 메모 ${th.filter(m=>m.w===ME.w&&m.p===ME.p).length}</h5>${th.map(m=>bub((m.w===ME.w?'me':'in')+(m.id&&m.id===AP.fresh?' fresh':''),m.code,m.t)).join('')}</div>`}
  h+=`<div class="msgin"><div class="boxes" id="box">${'<span></span>'.repeat(10)}<input id="apIn" autocomplete="off" spellcheck="false" aria-label="메모"></div><button id="send" type="button" disabled>올리기</button></div><div class="cnt" id="cnt">${memoStatus()}</div>`;return h}
+function memoShow(){const sc=$('scr'),m=document.querySelector('.msgin');if(!sc||!m||AP.v!=='msg')return;const c=$('cnt'),r=(c||m).getBoundingClientRect(),q=sc.getBoundingClientRect();if(r.bottom>q.bottom-6||m.getBoundingClientRect().top<q.top)sc.scrollTop+=r.bottom-q.bottom+14}
+function kbFit(){const v=window.visualViewport,a=document.activeElement,on=v&&a&&/INPUT|TEXTAREA/.test(a.tagName),ds=document.documentElement.style;
+ if(!on){ds.removeProperty('--kb');ds.removeProperty('--vvt');return}ds.setProperty('--kb',Math.max(0,Math.round(window.innerHeight-v.height))+'px');ds.setProperty('--vvt',Math.max(0,Math.round(v.offsetTop))+'px');if(a.id==='apIn')memoShow()}
+if(window.visualViewport){visualViewport.addEventListener('resize',kbFit);visualViewport.addEventListener('scroll',kbFit)}document.addEventListener('focusout',()=>setTimeout(kbFit,60));
 function msgWire(){const inp=$('apIn'),cnt=$('cnt'),btn=$('send'),bx=$('box'),cells=[...bx.querySelectorAll('span')];let comp=false;const mi=$('mi');mi.ontoggle=()=>{AP.mi=mi.open?0:1};
  const closed=()=>!memoOpen(),full=()=>(!S().free&&wroteTurn())||closed();
  const norm=()=>{const v=inp.value.replace(/\s/g,'');const c=[...v];if(c.length>10||v!==inp.value)inp.value=c.slice(0,10).join('')};
  const fill=()=>{const c=[...inp.value.replace(/\s/g,'')];cells.forEach((s,i)=>{s.textContent=c[i]||'';s.classList.toggle('on',i<c.length);s.classList.toggle('cur',document.activeElement===inp&&c.length<10&&i===c.length)});cnt.textContent=memoStatus();btn.disabled=!c.length||c.length>10||full()};
  inp.addEventListener('compositionstart',()=>comp=true);inp.addEventListener('compositionend',()=>{comp=false;norm();fill()});
- inp.oninput=()=>{if(!comp)norm();AP.draft=inp.value;fill()};inp.onfocus=fill;inp.onblur=()=>{fill();setTimeout(()=>{if(document.activeElement!==inp)apRender()},300)};inp.onkeydown=e=>{if(e.key==='Enter'&&!comp){e.preventDefault();btn.click()}};
+ inp.oninput=()=>{if(!comp)norm();AP.draft=inp.value;fill()};inp.onfocus=()=>{fill();kbFit();setTimeout(memoShow,350)};inp.onblur=()=>{fill();setTimeout(()=>{if(document.activeElement!==inp)apRender()},300)};inp.onkeydown=e=>{if(e.key==='Enter'&&!comp){e.preventDefault();btn.click()}};
  if(AP.draft&&!full())inp.value=AP.draft;fill();if(full()){inp.disabled=true;bx.style.opacity=.45}
  btn.onclick=()=>{norm();const v=inp.value;if(!v||[...v].length>10||full())return;btn.disabled=true;inp.disabled=true;cells.forEach((s,i)=>s.style.transitionDelay=(i*.03)+'s');bx.classList.add('fly');
   setTimeout(()=>{AP.draft='';wr(()=>STORE.memo({w:ME.w,p:ME.p,code:ME.code,r:S().round,turn:S().memoTurn,t:v,ts:Date.now()}));inp.blur()},560)}}
